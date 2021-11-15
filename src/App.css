@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+.banner-container {
+  width: 810px !important;
+
+  margin-left: -120px;
+}
