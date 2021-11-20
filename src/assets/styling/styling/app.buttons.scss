@@ -1,0 +1,16 @@
+@import "../styling/app.colors.scss";
+
+@mixin button {
+  width: 189px;
+  background-color: $primary-color-six !important;
+  border-radius: 5px !important;
+  opacity: 1;
+}
+
+@mixin primary_button($backgroudColor, $borderColor, $colorText) {
+  background-color: $backgroudColor;
+  color: $colorText;
+  border: 1px solid $borderColor;
+  border-radius: 5px;
+  opacity: 1;
+}

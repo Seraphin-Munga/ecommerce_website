@@ -1,0 +1,22 @@
+@import "../assets/styling/styling/app.buttons.scss";
+
+.register {
+  float: right;
+  margin-top: 20px;
+}
+
+.container-login {
+  width: 24%;
+  margin: auto;
+  margin-top: 18em;
+}
+
+.inner-container {
+  text-align: center;
+}
+
+.btn-register {
+  margin-top: 20px !important;
+  float: left;
+  @include button();
+}

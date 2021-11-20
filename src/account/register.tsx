@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import { ICustomerCreationModel } from "../core/models/customer-creation,model";
 import CustomerResourceService from "../core/services/customer-resource-service";
 import { useHistory } from "react-router-dom";
+import swal from "sweetalert";
 
 const _customerResourceService = CustomerResourceService;
 
@@ -50,6 +51,17 @@ const Register = () => {
   };
 
   async function register(): Promise<void> {
+
+   if (firstName === "" || lastName === "" ||  telephone === "" || "" || email === "" || password === "" || gender === "") {
+    swal({
+      title: "Input Validations",
+      text: "Fill up all required fields",
+      icon: "error",
+      dangerMode: true,
+    });
+    return
+   }
+
     customerCreationModel = {
       firstName: firstName,
       lastName: lastName,
@@ -69,14 +81,6 @@ const Register = () => {
 
   return (
     <div>
-      <Button
-        onClick={back}
-        className="btn-register"
-        variant="contained"
-        disableElevation
-      >
-        BACK
-      </Button>
       <Box
         component="form"
         sx={{

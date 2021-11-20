@@ -16,9 +16,11 @@ import Badge from "@mui/material/Badge";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { store, useGlobalState } from "state-pool";
 import { useHistory } from "react-router-dom";
+import swal from "sweetalert";
+
 const _productResourceService = ProductResourceService;
 store.setState("numberOfItems", 0);
-let shoppingCard: IProductRetrievalModel[]  = [];
+let shoppingCard: IProductRetrievalModel[] = [];
 
 function FormRow() {
   const [getProducts, setProducts] = useState<Array<IProductRetrievalModel>>();
@@ -33,30 +35,32 @@ function FormRow() {
     }
   }
 
-
-
-
   const addCard = (productModel: IProductRetrievalModel) => {
+    const lengthProductExist = shoppingCard.filter(
+      (item) => item._product_productID === productModel._product_productID
+    );
 
-    const lengthProductExist  = shoppingCard.filter(item => item._product_productID ===  productModel._product_productID);
-      
     if (lengthProductExist.length <= 0) {
       shoppingCard.push(productModel);
       localStorage.setItem("cardProducts", JSON.stringify(shoppingCard));
-      numberOfItems = shoppingCard.length
+      numberOfItems = shoppingCard.length;
       setNumberOfItems(numberOfItems);
-    }else{
-     
-   
-      const index = shoppingCard.findIndex((item) => item._product_productID === productModel._product_productID);
+    } else {
+      const index = shoppingCard.findIndex(
+        (item) => item._product_productID === productModel._product_productID
+      );
       const quatity = shoppingCard[index]._product_quantity + 1;
-      shoppingCard[index]._product_quantity =quatity;
+      shoppingCard[index]._product_quantity = quatity;
 
       localStorage.setItem("cardProducts", JSON.stringify(shoppingCard));
 
-       alert(`You have ${quatity} of the same products in your cards`)
+      swal({
+        title: "Warning",
+        text: `You have ${quatity} of the same products in your cards`,
+        icon: "warning",
+        dangerMode: true,
+      });
     }
-
   };
 
   useEffect(() => {
@@ -99,12 +103,15 @@ const Products = () => {
   const [numberOfItems, setNumberOfItems] = useGlobalState("numberOfItems");
 
   const checkOut = () => {
-    history.push('/login')
-  }
+    history.push("/login");
+  };
   return (
     <div>
-      <Badge  badgeContent={numberOfItems} color="error">
-        <AddShoppingCartIcon  onClick={() => checkOut()} className="shoppingCard" />
+      <Badge badgeContent={numberOfItems} color="error">
+        <AddShoppingCartIcon
+          onClick={() => checkOut()}
+          className="shoppingCard"
+        />
       </Badge>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>

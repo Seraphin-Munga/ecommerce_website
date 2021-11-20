@@ -14,9 +14,10 @@ import Button from "@mui/material/Button";
 import OrderResourceService from "../core/services/orderService-resource";
 import { IOrderCreationModel } from "../core/models/order-creation.model";
 import { useHistory } from "react-router-dom";
+import "./shoppingList.scss";
+import swal from "sweetalert";
 
 const _orderResourceService = OrderResourceService;
-
 
 const bull = (
   <Box
@@ -44,13 +45,27 @@ const ShoppingCard = () => {
   const history = useHistory();
   async function checkOut(): Promise<void> {
     const productItems = localStorage.getItem("cardProducts");
+
+    if (
+      productItems === "" ||
+      productItems === null ||
+      productItems === undefined
+    ) {
+      swal({
+        title: "Warning",
+        text: "There is product in your card",
+        icon: "warning",
+        dangerMode: true,
+      });
+      return;
+    }
+
     const items = JSON.parse(JSON.stringify(productItems));
     const ProductItemsShopping = JSON.parse(items);
 
-  let  totalPrice = 0
+    let totalPrice = 0;
 
-    ProductItemsShopping.forEach((element:IProductRetrievalModel) => {
-      
+    ProductItemsShopping.forEach((element: IProductRetrievalModel) => {
       totalPrice += element._product_price;
     });
 
@@ -64,7 +79,12 @@ const ShoppingCard = () => {
 
     try {
       await _orderResourceService.create(orderCreationModel);
-      alert("Order successfully");
+      swal({
+        title: "Success",
+        text: "Order successfully. Please check your email.",
+        icon: "success",
+        dangerMode: true,
+      });
       localStorage.clear();
       sessionStorage.clear();
       history.push("/");
@@ -89,6 +109,13 @@ const ShoppingCard = () => {
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
           >
             <TableCell component="th" scope="row">
+              <img
+                width="120px"
+                src={`http://compaign-002-site2.dtempurl.com/${row._product_imageLink}`}
+                alt=""
+              />
+            </TableCell>
+            <TableCell component="th" scope="row">
               {row._product_productName}
             </TableCell>
             <TableCell align="right">{row._product_price}</TableCell>
@@ -100,13 +127,18 @@ const ShoppingCard = () => {
   );
   return (
     <div className="container">
-      <Button onClick={() => checkOut()} variant="contained">
+      <Button
+        className="btn-shopping"
+        onClick={() => checkOut()}
+        variant="contained"
+      >
         Check Out
       </Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell>Image</TableCell>
               <TableCell>Product Name</TableCell>
               <TableCell align="right">Price</TableCell>
               <TableCell align="right">Quantity</TableCell>

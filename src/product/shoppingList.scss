@@ -1,0 +1,6 @@
+@import "../assets/styling/styling/app.buttons.scss";
+
+.btn-shopping {
+  @include button();
+  margin-bottom: 20px !important;
+}

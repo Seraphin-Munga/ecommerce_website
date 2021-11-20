@@ -3,6 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Header from "./header";
+import Footer from "./footer";
 import banner from "../assets/imgs/banner.jpg";
 import { INode } from "../core/models/node";
 
@@ -21,6 +22,7 @@ const SiteLayout = ({ children }: INode, props: any) => {
       <div className="container">
         {children}
         </div>
+        <Footer/>
     </div>
   );
 };

@@ -13,8 +13,9 @@ code {
 }
 
 .container {
-  margin-left: 50px;
-  margin-top: 80px;
+  margin-left: 60px;
+  margin-top: 100px;
+  margin-right: 60px;
 }
 
 .register-form {
@@ -27,13 +28,14 @@ code {
   width: 420px !important;
 }
 
-.btn-register {
-  margin-top: 20px !important;
-}
 .MuiSvgIcon-fontSizeMedium {
   margin-bottom: 20px;
 }
 
 .shoppingCard {
   cursor: pointer !important;
+}
+
+.MuiSelect-select {
+  width: 380px !important;
 }

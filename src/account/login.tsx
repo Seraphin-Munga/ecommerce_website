@@ -6,7 +6,9 @@ import { FormHelperText, Input, InputLabel } from "@mui/material";
 import Button from "@mui/material/Button";
 import { ILogin } from "../core/models/login.model";
 import AuthentificationResourceService from "../core/services/authentification-resource";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import swal from "sweetalert";
+import "./login.scss";
 
 const _authentificationResourceService = AuthentificationResourceService;
 
@@ -29,15 +31,45 @@ const Login = () => {
   };
 
   async function login(): Promise<void> {
+    if (email === "" || email === undefined || email === null) {
+      swal({
+        title: "Input Validations",
+        text: "Email is required",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    } else if (password === "" || password === undefined || password === null) {
+      swal({
+        title: "Input Validations",
+        text: "Password is required",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
     loginModel = {
       email: email,
       password: password,
       isAdmin: false,
     };
-    try {
-      const user = await _authentificationResourceService.login(loginModel);
 
-      sessionStorage.setItem("user", JSON.stringify(user));
+    try {
+      const customer = await _authentificationResourceService.login(loginModel);
+      if (
+        customer.email == "" ||
+        customer.email == null ||
+        customer.email === undefined
+      ) {
+        swal({
+          title: "Warning",
+          text: "Username or password is incorrect!",
+          icon: "warning",
+          dangerMode: true,
+        });
+        return;
+      }
+      sessionStorage.setItem("user", JSON.stringify(customer));
       history.push("/shopping-card");
     } catch (error) {
       alert("Something went wrong");
@@ -45,24 +77,8 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <Button
-        onClick={back}
-        className="btn-register"
-        variant="contained"
-        disableElevation
-      >
-        BACK
-      </Button>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div className="register-form">
+    <div className="container-login">  
+        <div className="inner-container">
           <div>
             <FormControl>
               <InputLabel htmlFor="my-input">Email</InputLabel>
@@ -93,8 +109,9 @@ const Login = () => {
           >
             LOGIN
           </Button>
+          <Link className="register" to="/register">Register</Link>
         </div>
-      </Box>
+   
     </div>
   );
 };
