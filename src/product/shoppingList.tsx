@@ -53,7 +53,7 @@ const ShoppingCard = () => {
     ) {
       swal({
         title: "Warning",
-        text: "There is product in your card",
+        text: "There is no product in your card",
         icon: "warning",
         dangerMode: true,
       });

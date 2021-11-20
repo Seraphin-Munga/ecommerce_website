@@ -24,13 +24,13 @@ code {
   width: 670px !important;
 }
 
-.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+.MuiInput-input {
   width: 420px !important;
 }
 
-.MuiSvgIcon-fontSizeMedium {
+/* MuiInput-input .MuiSvgIcon-fontSizeMedium {
   margin-bottom: 20px;
-}
+} */
 
 .shoppingCard {
   cursor: pointer !important;
