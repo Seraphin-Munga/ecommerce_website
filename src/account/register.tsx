@@ -72,7 +72,12 @@ const Register = () => {
     };
     try {
       await _customerResourceService.register(customerCreationModel);
-      alert("Register successfully");
+      swal({
+        title: "Warning",
+        text: "Register successfully",
+        icon: "success",
+        dangerMode: true,
+      });
       history.push("/");
     } catch (error) {
       alert("Something went wrong");
