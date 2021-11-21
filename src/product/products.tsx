@@ -17,14 +17,21 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { store, useGlobalState } from "state-pool";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../state/index";
 
 const _productResourceService = ProductResourceService;
 store.setState("numberOfItems", 0);
-let shoppingCard: IProductRetrievalModel[] = [];
 
 function FormRow() {
   const [getProducts, setProducts] = useState<Array<IProductRetrievalModel>>();
   let [numberOfItems, setNumberOfItems] = useGlobalState("numberOfItems");
+  const productState = useSelector((state: any) => state.shoppingCard);
+  const dispatch = useDispatch();
+
+  const { addProductItems } = bindActionCreators(actionCreators, dispatch);
+
   async function getProductsItem(): Promise<void> {
     try {
       const productData = await _productResourceService.getProducts();
@@ -36,24 +43,22 @@ function FormRow() {
   }
 
   const addCard = (productModel: IProductRetrievalModel) => {
-    const lengthProductExist = shoppingCard.filter(
-      (item) => item._product_productID === productModel._product_productID
+    const lengthProductExist = productState.filter(
+      (item: IProductRetrievalModel) =>
+        item._product_productID === productModel._product_productID
     );
 
     if (lengthProductExist.length <= 0) {
-      shoppingCard.push(productModel);
-      localStorage.setItem("cardProducts", JSON.stringify(shoppingCard));
-      numberOfItems = shoppingCard.length;
+      addProductItems(productModel);
+      numberOfItems = productState.length;
       setNumberOfItems(numberOfItems);
     } else {
-      const index = shoppingCard.findIndex(
-        (item) => item._product_productID === productModel._product_productID
+      const index = productState.findIndex(
+        (item: IProductRetrievalModel) =>
+          item._product_productID === productModel._product_productID
       );
-      const quatity = shoppingCard[index]._product_quantity + 1;
-      shoppingCard[index]._product_quantity = quatity;
-
-      localStorage.setItem("cardProducts", JSON.stringify(shoppingCard));
-
+      const quatity = productState[index]._product_quantity + 1;
+      productState[index]._product_quantity = quatity;
       swal({
         title: "Warning",
         text: `You have ${quatity} of the same products in your cards`,

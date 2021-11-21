@@ -16,6 +16,10 @@ import { IOrderCreationModel } from "../core/models/order-creation.model";
 import { useHistory } from "react-router-dom";
 import "./shoppingList.scss";
 import swal from "sweetalert";
+import {useSelector,useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import {actionCreators}  from "../state/index";
+
 
 const _orderResourceService = OrderResourceService;
 
@@ -43,13 +47,14 @@ const ShoppingCard = () => {
   let [orderCreationModel, setOrderCreationModel] =
     useState<IOrderCreationModel>();
   const history = useHistory();
+  const productState = useSelector((state:any) => state.shoppingCard);
+  const dispatch = useDispatch();
+
+  const {emptyCard} = bindActionCreators(actionCreators, dispatch);
   async function checkOut(): Promise<void> {
-    const productItems = localStorage.getItem("cardProducts");
 
     if (
-      productItems === "" ||
-      productItems === null ||
-      productItems === undefined
+      productState.length === 0
     ) {
       swal({
         title: "Warning",
@@ -59,18 +64,14 @@ const ShoppingCard = () => {
       });
       return;
     }
-
-    const items = JSON.parse(JSON.stringify(productItems));
-    const ProductItemsShopping = JSON.parse(items);
-
     let totalPrice = 0;
 
-    ProductItemsShopping.forEach((element: IProductRetrievalModel) => {
+    productState.forEach((element: IProductRetrievalModel) => {
       totalPrice += element._product_price;
     });
 
     orderCreationModel = {
-      quantity: ProductItemsShopping.length,
+      quantity: productState.length,
       totalPrice: totalPrice,
       customerEmail: "",
       customerID: "",
@@ -85,8 +86,7 @@ const ShoppingCard = () => {
         icon: "success",
         dangerMode: true,
       });
-      localStorage.clear();
-      sessionStorage.clear();
+      emptyCard();
       history.push("/");
     } catch (error) {
       alert("Something went wrong");
@@ -94,10 +94,7 @@ const ShoppingCard = () => {
   }
 
   useEffect(() => {
-    const productItems = localStorage.getItem("cardProducts");
-    const items = JSON.parse(JSON.stringify(productItems));
-    const ProductItemsShopping = JSON.parse(items);
-    setProducts(ProductItemsShopping);
+    setProducts(productState);
   }, []);
 
   const renderShoppingList = getProducts?.map(

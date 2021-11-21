@@ -5,11 +5,15 @@ import Products from "../src/product/products";
 import Register from "../src/account/register";
 import Login from "../src/account/login";
 import ShoppingCard from "../src/product/shoppingList"
+import {Provider} from "react-redux";
+import  store from "../src/state/store"
 
 function App() {
   return (
     <div className="App">
+     
       <Router>
+      <Provider store={store}>
         <SiteLayout>
 
           <Switch>
@@ -31,7 +35,9 @@ function App() {
 
           </Switch>
         </SiteLayout>
+        </Provider>
       </Router>
+     
     </div>
   );
 }

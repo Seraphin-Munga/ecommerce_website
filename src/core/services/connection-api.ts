@@ -1,3 +1,6 @@
 export default class ConnectionAPI {
-    static readonly API_URL = "http://compaign-002-site2.dtempurl.com/api/";
+    static readonly API_URL = "https://localhost:5001/api/";
 }
+
+
+
