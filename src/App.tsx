@@ -7,6 +7,7 @@ import Login from "../src/account/login";
 import ShoppingCard from "../src/product/shoppingList"
 import {Provider} from "react-redux";
 import  store from "../src/state/store"
+import ProtectedRoutes from "../src/auth/protected-routes"
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
             </Route>
 
             <Route path="/shopping-card">
-              <ShoppingCard />
+               <ProtectedRoutes component={ShoppingCard}/>
+              {/* <ShoppingCard /> */}
             </Route>
 
           </Switch>
