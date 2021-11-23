@@ -24,7 +24,7 @@ const Header = () => {
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar className="header" position="static">
-          <Toolbar>
+          <Toolbar className="toolbar-header">
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link className="logo" to="/">
                 ECOMMERCE

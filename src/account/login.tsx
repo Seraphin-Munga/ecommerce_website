@@ -31,6 +31,8 @@ const Login = () => {
   };
 
   async function login(): Promise<void> {
+    const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     if (email === "" || email === undefined || email === null) {
       swal({
         title: "Input Validations",
@@ -43,6 +45,16 @@ const Login = () => {
       swal({
         title: "Input Validations",
         text: "Password is required",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
+
+    if (!emailRegEx.test(email)) {
+      swal({
+        title: "Email Validation",
+        text: "Email is not validate",
         icon: "error",
         dangerMode: true,
       });

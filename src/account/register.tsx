@@ -51,16 +51,34 @@ const Register = () => {
   };
 
   async function register(): Promise<void> {
+    const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      telephone === "" ||
+      "" ||
+      email === "" ||
+      password === "" ||
+      gender === ""
+    ) {
+      swal({
+        title: "Input Validations",
+        text: "Fill up all required fields",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
 
-   if (firstName === "" || lastName === "" ||  telephone === "" || "" || email === "" || password === "" || gender === "") {
-    swal({
-      title: "Input Validations",
-      text: "Fill up all required fields",
-      icon: "error",
-      dangerMode: true,
-    });
-    return
-   }
+    if (!emailRegEx.test(email)) {
+      swal({
+        title: "Email Validation",
+        text: "Email is not validate",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
 
     customerCreationModel = {
       firstName: firstName,

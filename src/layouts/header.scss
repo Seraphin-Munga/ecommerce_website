@@ -2,6 +2,9 @@
 
 .header {
   background-color: $primary-color-ten !important;
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 2 !important;
 }
 
 .logo {

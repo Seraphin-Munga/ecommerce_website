@@ -49,7 +49,6 @@ const ShoppingCard = () => {
   const history = useHistory();
   const productState = useSelector((state:any) => state.shoppingCard);
   const dispatch = useDispatch();
-
   const {emptyCard} = bindActionCreators(actionCreators, dispatch);
   async function checkOut(): Promise<void> {
 
@@ -69,7 +68,7 @@ const ShoppingCard = () => {
     productState.forEach((element: IProductRetrievalModel) => {
       totalPrice += element._product_price;
     });
-
+    
     orderCreationModel = {
       quantity: productState.length,
       totalPrice: totalPrice,
@@ -108,7 +107,7 @@ const ShoppingCard = () => {
             <TableCell component="th" scope="row">
               <img
                 width="120px"
-                src={`http://compaign-002-site2.dtempurl.com/${row._product_imageLink}`}
+                src={`https://localhost:5001/${row._product_imageLink}`}
                 alt=""
               />
             </TableCell>
