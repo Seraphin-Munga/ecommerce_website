@@ -20,6 +20,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
   const [gender, setGender] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   let [customerCreationModel, setCustomerCreationModel] =
     useState<ICustomerCreationModel>();
 
@@ -36,6 +37,10 @@ const Register = () => {
   };
   const handleChangeEmail = (event: any) => {
     setEmail(event.target.value);
+  };
+
+  const handleChangeConfirmPassword = (event: any) => {
+    setConfirmPassword(event.target.value);
   };
 
   const handleChangePassword = (event: any) => {
@@ -74,6 +79,16 @@ const Register = () => {
       swal({
         title: "Email Validation",
         text: "Email is not validate",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
+
+    if (confirmPassword !== password) {
+      swal({
+        title: "Input Validations",
+        text: "Password does not match",
         icon: "error",
         dangerMode: true,
       });
@@ -178,7 +193,7 @@ const Register = () => {
 
           <div>
             <FormControl>
-              <InputLabel htmlFor="my-input">password</InputLabel>
+              <InputLabel htmlFor="my-input">Password</InputLabel>
               <Input
                 id="my-input"
                 type="password"
@@ -187,6 +202,19 @@ const Register = () => {
               />
             </FormControl>
           </div>
+
+          <div>
+            <FormControl>
+              <InputLabel htmlFor="my-input">Confirm Password</InputLabel>
+              <Input
+                id="my-input"
+                type="password"
+                aria-describedby="my-helper-text"
+                onChange={handleChangeConfirmPassword}
+              />
+            </FormControl>
+          </div>
+
           <Button
             onClick={register}
             className="btn-register"
